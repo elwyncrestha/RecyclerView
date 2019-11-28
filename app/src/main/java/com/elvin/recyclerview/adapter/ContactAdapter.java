@@ -1,6 +1,7 @@
 package com.elvin.recyclerview.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elvin.recyclerview.R;
+import com.elvin.recyclerview.activity.DetailActivity;
 import com.elvin.recyclerview.model.Contact;
 
 import java.util.List;
@@ -38,10 +40,21 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        Contact contact = this.contacts.get(position);
+        final Contact contact = this.contacts.get(position);
         holder.civContactImage.setImageResource(contact.getImageId());
         holder.tvName.setText(contact.getName());
         holder.tvContact.setText(contact.getPhoneNumber());
+
+        holder.civContactImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("image", contact.getImageId());
+                intent.putExtra("name", contact.getName());
+                intent.putExtra("contact", contact.getPhoneNumber());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
